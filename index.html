@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Zai — Coming Soon</title>
+  <style>
+    /* Reset */
+    *,*::before,*::after{box-sizing:border-box} body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial}
+    /* Animated pastel gradient background */
+    :root{
+      --c1:#ffd1dc; /* pastel pink */
+      --c2:#d1e8ff; /* pastel blue */
+      --c3:#e9ffd1; /* pastel green */
+      --c4:#f8e7ff; /* pastel violet */
+    }
+    .bg {
+      position: fixed; inset: 0; z-index:-1;
+      background: radial-gradient(60% 80% at 20% 10%, var(--c1), transparent 60%),
+                  radial-gradient(60% 80% at 80% 20%, var(--c2), transparent 60%),
+                  radial-gradient(60% 80% at 30% 90%, var(--c3), transparent 60%),
+                  radial-gradient(60% 80% at 90% 80%, var(--c4), transparent 60%),
+                  #fff;
+      filter: blur(20px) saturate(120%);
+      animation: float 16s ease-in-out infinite alternate;
+    }
+    @keyframes float {
+      0%   { filter: blur(18px) saturate(115%); transform: translate3d(0,0,0) scale(1.02); }
+      100% { filter: blur(22px) saturate(130%); transform: translate3d(0,-10px,0) scale(1.05); }
+    }
+
+    /* Layout */
+    .wrap{min-height:100svh; display:grid; place-items:center; padding:24px}
+    .card{
+      width: min(720px, 92vw);
+      background: rgba(255,255,255,0.7);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.6);
+      border-radius: 20px; padding: 28px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+    h1{margin:0 0 6px; font-size: clamp(28px, 4vw, 40px); letter-spacing:-0.02em}
+    p.sub{margin:0 0 18px; color:#444; line-height:1.5}
+    form{display:grid; gap:12px; margin-top:12px}
+    label{font-size:14px; color:#333}
+    input,textarea{
+      width:100%; padding:12px 14px; font-size:16px;
+      border:1px solid rgba(0,0,0,0.12); border-radius:12px; background:#fff;
+      outline:none;
+    }
+    textarea{min-height:112px; resize:vertical}
+    button{
+      appearance:none; border:0; border-radius:14px; padding:12px 16px;
+      font-weight:600; font-size:16px; cursor:pointer;
+      background:#111; color:#fff;
+    }
+    .note{font-size:12px; color:#555}
+    .success,.error{
+      padding:10px 12px; border-radius:12px; font-size:14px; display:none; margin-top:8px;
+    }
+    .success{background:#e7fff1; color:#0c6c3f; border:1px solid #bdf3d5}
+    .error{background:#ffecec; color:#a50e0e; border:1px solid #ffc5c5}
+  </style>
+</head>
+<body>
+  <div class="bg"></div>
+  <main class="wrap">
+    <section class="card">
+      <h1>Zai</h1>
+      <p class="sub">Cultural AI that helps you explore the deeper context behind art, objects, and experiences. Join the early list.</p>
+
+      <form id="signup">
+        <div>
+          <label for="name">Name</label>
+          <input id="name" name="name" placeholder="Your name" required />
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" placeholder="you@domain.com" required />
+        </div>
+        <div>
+          <label for="message">What should Zai help you discover?</label>
+          <textarea id="message" name="message" placeholder="Tell us what you’re curious about…"></textarea>
+        </div>
+        <button type="submit">Request Access</button>
+        <div class="success" id="ok">Thanks! You’re on the list.</div>
+        <div class="error" id="err">Something went wrong. Please try again.</div>
+        <p class="note">No spam. Unsubscribe anytime.</p>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    const FORM_ENDPOINT = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
+
+    async function submitForm(payload) {
+      const res = await fetch(FORM_ENDPOINT, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(payload)
+      });
+      return res.ok;
+    }
+
+    const form = document.getElementById('signup');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const payload = {
+        name: form.name.value.trim(),
+        email: form.email.value.trim(),
+        message: form.message.value.trim()
+      };
+      try {
+        const ok = await submitForm(payload);
+        if (ok) {
+          document.getElementById('ok').style.display = 'block';
+          document.getElementById('err').style.display = 'none';
+          form.reset();
+        } else {
+          throw new Error('Bad response');
+        }
+      } catch (err) {
+        document.getElementById('err').style.display = 'block';
+        document.getElementById('ok').style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
