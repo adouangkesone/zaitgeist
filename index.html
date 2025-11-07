@@ -10,161 +10,122 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
 
-  <style>
-    :root{
-      --bg1: 280 100% 97%;
-      --bg2: 95 100% 96%;
-      --bg3: 210 100% 97%;
-      --ink: #222;
-      --ink-muted:#5c5c5c;
-      --brand:#8b4ea9; /* button */
-      --brand-press:#6f3c86;
-      --radius: 14px;
-      --shadow: 0 10px 30px rgba(0,0,0,.08);
-      --maxw: 680px;
-    }
-    html,body{
-      height:100%;
-      margin:0;
-      font-family: Montserrat, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
-      color: var(--ink);
-      background: radial-gradient(circle at 20% 10%, hsl(var(--bg1)) 0%, transparent 40%),
-                  radial-gradient(circle at 80% 30%, hsl(var(--bg2)) 0%, transparent 40%),
-                  radial-gradient(circle at 50% 90%, hsl(var(--bg3)) 0%, transparent 40%),
-                  #fff;
-      background-attachment: fixed;
-      animation: glow 18s ease-in-out infinite alternate;
-    }
-    @keyframes glow{
-      0% { background-position: 20% 10%, 80% 30%, 50% 90%; }
-      100% { background-position: 25% 15%, 75% 25%, 45% 85%; }
-    }
+ <style>
+  /* soft animated pastel gradient background */
+  :root {
+    --bg1: #f6f1ff;
+    --bg2: #f1fff6;
+    --bg3: #fff6f1;
+  }
+  html,body{
+    height:100%;
+    margin:0;
+    font-family: system-ui, -apple-system, Inter, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    color:#2b2b2b;
+  }
+  body{
+    background: radial-gradient(1200px 800px at 30% 20%, var(--bg1), transparent 60%),
+                radial-gradient(1200px 800px at 70% 80%, var(--bg2), transparent 60%),
+                radial-gradient(1200px 800px at 50% 50%, var(--bg3), transparent 60%),
+                #ffffff;
+    animation: drift 16s ease-in-out infinite alternate;
+  }
+  @keyframes drift {
+    0%   { background-position: 30% 20%, 70% 80%, 50% 50%; }
+    100% { background-position: 35% 25%, 65% 75%, 48% 52%; }
+  }
 
-    .page{
-      min-height:100%;
-      display:grid;
-      grid-template-rows:auto 1fr;
-    }
-    .brand{
-      padding: 18px 22px;
-    }
-    .brand img{
-      height: 56px;
-      width:auto;
-      display:block;
-      filter: drop-shadow(0 2px 6px rgba(0,0,0,.12));
-    }
-    .wrap{
-      display:grid;
-      place-items:center;
-      padding: 40px 20px 64px;
-    }
-    .card{
-      width: min(100%, var(--maxw));
-      backdrop-filter: blur(6px);
-      background: rgba(255,255,255,.65);
-      border-radius: 28px;
-      box-shadow: var(--shadow);
-      padding: clamp(22px, 5vw, 42px);
-    }
-    h1{
-      font-size: clamp(28px, 5vw, 44px);
-      line-height: 1.1;
-      margin: 0 0 6px;
-      text-align:center;
-      font-weight:700;
-      letter-spacing:.2px;
-    }
-    .sub{
-      text-align:center;
-      color: var(--ink-muted);
-      margin: 0 0 24px;
-      font-weight:600;
-    }
-    form{
-      display:grid;
-      gap: 16px;
-      margin-top: 8px;
-    }
-    label{
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--ink-muted);
-      margin-bottom: 4px;
-      display:block;
-    }
-    input[type="email"], select, button{
-      font: inherit;
-    }
-    .field{
-      display:grid;
-      gap: 8px;
-    }
-    .control{
-      width:100%;
-      border: 1.5px solid rgba(0,0,0,.12);
-      background: #fff;
-      border-radius: var(--radius);
-      padding: 14px 16px;
-      outline:none;
-      transition: box-shadow .15s ease, border-color .15s ease, transform .02s ease;
-      box-shadow: 0 1px 0 rgba(0,0,0,.03) inset;
-    }
-    .control:focus{
-      border-color: rgba(139,78,169,.55);
-      box-shadow: 0 0 0 4px rgba(139,78,169,.15);
-    }
-    .hint{
-      font-size: 12px;
-      color: var(--ink-muted);
-      margin-top: -4px;
-    }
-    .btn{
-      justify-self:start;
-      border: none;
-      border-radius: var(--radius);
-      padding: 12px 20px;
-      font-weight: 700;
-      background: var(--brand);
-      color: #fff;
-      cursor: pointer;
-      box-shadow: var(--shadow);
-    }
-    .btn:active{ transform: translateY(1px); background: var(--brand-press); }
+  .wrap{
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+    text-align:center;
+  }
 
-    .note{
-      margin-top: 10px;
-      font-size: 14px;
-      color: var(--ink-muted);
-    }
+  .site-header{
+    display:flex;
+    align-items:center;
+    justify-content:flex-start;
+    padding: 24px;
+  }
+  .brand-logo{
+    height: 56px;   /* adjust to taste */
+    width: auto;
+  }
 
-    .alert{
-      margin-top: 10px;
-      padding: 10px 12px;
-      border-radius: 12px;
-      display:none;
-    }
-    .ok{ background:#e9f9f0; color:#0f6a3f; }
-    .err{ background:#fdeaea; color:#b00020; }
+  h1{
+    font-weight:800;
+    letter-spacing:0.2px;
+    margin: 16px 0 8px;
+    font-size: clamp(28px, 4vw, 48px);
+  }
+  .sub{
+    font-size: clamp(18px, 2.4vw, 24px);
+    margin-bottom: 28px;
+    opacity: .85;
+  }
 
-    /* mobile tweaks */
-    @media (max-width: 640px){
-      .brand img { height: 46px; }
-      .btn{ justify-self:stretch; text-align:center; }
-    }
-  </style>
+  .card{
+    margin: 0 auto;
+    background: rgba(255,255,255,.75);
+    backdrop-filter: blur(6px);
+    border-radius: 18px;
+    padding: 24px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.06);
+    width: min(560px, 100%);
+    text-align:left;
+  }
+
+  label{
+    font-size: 14px;
+    font-weight:600;
+    margin: 12px 0 6px;
+    display:block;
+  }
+
+  input[type="email"], select, textarea{
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(0,0,0,.15);
+    outline: none;
+    font-size: 16px;
+    background: #fff;
+  }
+
+  button{
+    margin-top: 16px;
+    padding: 12px 18px;
+    border-radius: 12px;
+    border: 0;
+    font-weight:700;
+    cursor: pointer;
+    background: linear-gradient(135deg, #9a6dd7, #cc77b9);
+    color:#fff;
+    box-shadow: 0 6px 18px rgba(153, 102, 204, .28);
+  }
+  button:active{ transform: translateY(1px); }
+
+  /* Mobile layout */
+  @media (max-width: 640px){
+    .site-header{ justify-content:center; }
+    .brand-logo{ height: 48px; }
+    .card{ padding: 18px; }
+  }
+</style>
+
 
   <!-- social preview (optional) -->
   <meta property="og:title" content="Zaitgeist — sign up for beta" />
   <meta property="og:description" content="Want to explore deeper? Join the Zaitgeist beta." />
   <meta property="og:type" content="website" />
   <meta name="theme-color" content="#8b4ea9" />
+  
 </head>
 <body>
-  <div class="page">
-    <header class="brand">
-      <img src="assets/Clear logo.svg" alt="Zaitgeist logo" />
-    </header>
+    <header class="site-header">
+    <img src="assets/logo.png" alt="Zaitgeist" class="brand-logo">
+  </header>
 
     <main class="wrap">
       <section class="card" role="region" aria-labelledby="hero">
