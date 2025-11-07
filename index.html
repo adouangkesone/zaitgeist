@@ -1,162 +1,148 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Zaitgeist — sign up for beta</title>
 
-  <!-- fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet"/>
 
- <style>
-  /* soft animated pastel gradient background */
-  :root {
-    --bg1: #f6f1ff;
-    --bg2: #f1fff6;
-    --bg3: #fff6f1;
-  }
-  html,body{
-    height:100%;
-    margin:0;
-    font-family: system-ui, -apple-system, Inter, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-    color:#2b2b2b;
-  }
-  body{
-    background: radial-gradient(1200px 800px at 30% 20%, var(--bg1), transparent 60%),
-                radial-gradient(1200px 800px at 70% 80%, var(--bg2), transparent 60%),
-                radial-gradient(1200px 800px at 50% 50%, var(--bg3), transparent 60%),
-                #ffffff;
-    animation: drift 16s ease-in-out infinite alternate;
-  }
-  @keyframes drift {
-    0%   { background-position: 30% 20%, 70% 80%, 50% 50%; }
-    100% { background-position: 35% 25%, 65% 75%, 48% 52%; }
-  }
+  <style>
+    :root{
+      --ink:#2b2b2b;
+      --accent-1:#9a6dd7;
+      --accent-2:#cc77b9;
+      --bg1:#f6f1ff;
+      --bg2:#f1fff6;
+      --bg3:#fff6f1;
+      --radius:14px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Montserrat,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(1100px 800px at 30% 20%, var(--bg1), transparent 60%),
+        radial-gradient(1200px 900px at 70% 80%, var(--bg2), transparent 60%),
+        radial-gradient(900px 700px at 50% 55%, var(--bg3), transparent 60%),
+        #fff;
+      animation: drift 18s ease-in-out infinite alternate;
+    }
+    @keyframes drift{
+      0%{background-position:30% 20%,70% 80%,50% 55%}
+      100%{background-position:35% 25%,65% 75%,48% 52%}
+    }
 
-  .wrap{
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 48px 24px 80px;
-    text-align:center;
-  }
+    .page{
+      max-width:880px;
+      margin:0 auto;
+      padding:28px 24px 80px;
+    }
+    header{
+      display:flex;align-items:center;gap:12px;margin-bottom:16px;
+    }
+    .brand-logo{height:56px;width:auto;display:block}
+    h1{
+      font-weight:800;
+      font-size:clamp(40px,7vw,72px);
+      line-height:1.05;
+      letter-spacing:.2px;
+      margin:28px 0 8px;
+      text-wrap:balance;
+    }
+    .sub{font-size:clamp(18px,2.4vw,24px);opacity:.85;margin:0 0 24px}
 
-  .site-header{
-    display:flex;
-    align-items:center;
-    justify-content:flex-start;
-    padding: 24px;
-  }
-  .brand-logo{
-    height: 56px;   /* adjust to taste */
-    width: auto;
-  }
+    form{
+      margin-top:18px;
+    }
+    label{
+      display:block;
+      font-weight:600;
+      font-size:16px;
+      margin:18px 0 8px;
+    }
+    input[type="email"], select{
+      width:100%;
+      padding:14px 16px;
+      border-radius:var(--radius);
+      border:1px solid rgba(0,0,0,.14);
+      background:#fff;
+      font-size:16px;
+      outline:none;
+    }
+    /* multi-select height */
+    select[multiple]{height:180px}
+    .hint{font-size:14px;opacity:.7;margin-top:6px}
 
-  h1{
-  font-weight:800;
-  letter-spacing:0.2px;
-  margin: 16px 0 8px;
-  font-size: clamp(40px, 8vw, 72px);
-  line-height: 1.05;
-}
-.sub{
-  font-size: clamp(20px, 3vw, 32px);
-  margin-bottom: 28px;
-  opacity: .85;
-}
+    button{
+      margin-top:18px;
+      padding:12px 20px;
+      border-radius:var(--radius);
+      border:0;
+      font-weight:700;
+      cursor:pointer;
+      background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
+      color:#fff;
+      box-shadow:0 10px 24px rgba(153,102,204,.30);
+    }
+    button:active{transform:translateY(1px)}
 
- .card{
-  margin: 0 auto;
-  background: transparent;
-  backdrop-filter: none;
-  border-radius: 0;
-  box-shadow: none;
-  padding: 0;          /* keep things airy like Webflow */
-  width: min(720px, 100%);
-  text-align: left;
-}
+    .alert{display:none;margin-top:14px;font-size:15px}
+    .ok{color:#135d2f}
+    .err{color:#8b1c1c}
+    .note{font-size:13px;opacity:.65;margin-top:16px}
 
-  label{
-    font-size: 14px;
-    font-weight:600;
-    margin: 12px 0 6px;
-    display:block;
-  }
+    /* mobile tweaks */
+    @media (max-width:640px){
+      .brand-logo{height:48px}
+      .page{padding:20px 16px 64px}
+    }
+  </style>
 
-  input[type="email"], select{
-  padding: 16px 18px;
-  border-radius: 14px;
-  font-size: 18px;
-}
-button{
-  margin-top: 20px;
-  padding: 14px 22px;
-  border-radius: 14px;
-  font-weight: 700;
-}
-.alert{ display:none; margin-top:10px; }
-#ok{ color:#0a7f3f; }
-#err{ color:#b00020; }
-  button:active{ transform: translateY(1px); }
-
-  /* Mobile layout */
-  @media (max-width: 640px){
-    .site-header{ justify-content:center; }
-    .brand-logo{ height: 48px; }
-    .card{ padding: 18px; }
-  }
-</style>
-
-
-  <!-- social preview (optional) -->
-  <meta property="og:title" content="Zaitgeist — sign up for beta" />
-  <meta property="og:description" content="Want to explore deeper? Join the Zaitgeist beta." />
-  <meta property="og:type" content="website" />
-  <meta name="theme-color" content="#8b4ea9" />
-  
+  <meta property="og:title" content="Zaitgeist — sign up for beta"/>
+  <meta property="og:description" content="Want to explore deeper? Join the Zaitgeist beta."/>
+  <meta property="og:type" content="website"/>
+  <meta name="theme-color" content="#8b4ea9"/>
 </head>
 <body>
-    <header class="site-header">
-    <img src="assets/logo.png" alt="Zaitgeist" class="brand-logo">
-  </header>
+  <div class="page">
+    <header>
+      <img src="assets/logo.png" alt="Zaitgeist" class="brand-logo">
+    </header>
 
-    <main class="wrap">
-      <section class="card" role="region" aria-labelledby="hero">
-        <h1 id="hero">want to explore deeper?</h1>
-        <p class="sub">sign up for beta</p>
+    <h1>want to explore deeper?</h1>
+    <p class="sub">sign up for beta</p>
 
-        <form id="betaForm" novalidate>
-          <div class="field">
-            <label for="email">email</label>
-            <input id="email" name="email" type="email" required placeholder="you@example.com" class="control" />
-          
-          </div>
+    <form id="betaForm" novalidate>
+      <label for="email">email</label>
+      <input id="email" name="email" type="email" required placeholder="you@example.com">
+      <div class="hint">we’ll only use this to contact you about the beta.</div>
 
-          <div class="field">
-            <label for="interest">where do you want zaitgeist to lead you?</label>
-            <select id="interest" name="interest" class="control" required>
-              <option value="" disabled selected>Choose one…</option>
-              <option>In-person Events</option>
-              <option>Classes</option>
-              <option>Research Insights</option>
-              <option>New Artists</option>
-              <option>Community Organizations</option>
-            </select>
-          </div>
+      <label for="interest">where do you want zaitgeist to lead you?</label>
+      <!-- MULTI-SELECT -->
+      <select id="interest" name="interest" multiple>
+        <option>In-person Events</option>
+        <option>Classes</option>
+        <option>Research Insights</option>
+        <option>New Artists</option>
+        <option>Community Organizations</option>
+      </select>
 
-          <button class="btn" type="submit">Submit</button>
+      <button type="submit">Submit</button>
 
-          <div id="ok" class="alert ok">Thanks! You’re on the list.</div>
-          <div id="err" class="alert err">Something went wrong. Please try again.</div>
-        
-        </form>
-      </section>
-    </main>
+      <div id="ok" class="alert ok">Thanks! You’re on the list.</div>
+      <div id="err" class="alert err">Something went wrong. Please try again.</div>
+      <p class="note">By submitting, you agree to receive occasional emails about Zaitgeist.</p>
+    </form>
   </div>
 
   <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxDIV0lxbUZvJmEI_6ltxENkmCbGmFvYnfzeParnOCdker-SZVs1yTtsnVpr9msHO4T/exec"; // <-- paste your Apps Script web app URL
+    // Your deployed Apps Script URL ("Anyone with the link")
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxDIV0lxbUZvJmEI_6ltxENkmCbGmFvYnfzeParnOCdker-SZVs1yTtsnVpr9msHO4T/exec";
 
     const form = document.getElementById('betaForm');
     const ok = document.getElementById('ok');
@@ -168,9 +154,13 @@ button{
       err.style.display = 'none';
 
       const email = document.getElementById('email').value.trim();
-      const interest = document.getElementById('interest').value;
 
-      if (!email || !interest){
+      // collect multi-select values
+      const select = document.getElementById('interest');
+      const selections = Array.from(select.selectedOptions).map(o => o.value);
+      const interestStr = selections.join(', ');
+
+      if (!email || selections.length === 0){
         err.textContent = "Please fill out all fields.";
         err.style.display = 'block';
         return;
@@ -179,9 +169,12 @@ button{
       try{
         const res = await fetch(SCRIPT_URL, {
           method: 'POST',
-          mode: 'cors',                  // your script must be deployed as "Anyone with the link"
+          mode: 'cors',
           headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({ Email: email, "where do you want zaitgeist to lead you?": interest })
+          body: JSON.stringify({
+            Email: email,
+            "where do you want zaitgeist to lead you?": interestStr
+          })
         });
 
         if (res.ok){
