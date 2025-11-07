@@ -3,55 +3,245 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Zaitgeist — beta sign-up</title>
+  <title>Zaitgeist — sign up for beta</title>
+
+  <!-- fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
+
   <style>
-    :root { --bg1:#f2e9f9; --bg2:#e9f7f2; --bg3:#fff7e6; }
-    body {
-      margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif;
-      min-height:100svh; display:grid; place-items:center; color:#222;
-      background: radial-gradient(1200px 600px at 70% 20%, var(--bg1), transparent 60%),
-                  radial-gradient(1000px 600px at 20% 80%, var(--bg2), transparent 60%),
-                  radial-gradient(900px 500px at 50% 50%, var(--bg3), transparent 60%);
-      animation: float 14s ease-in-out infinite alternate;
+    :root{
+      --bg1: 280 100% 97%;
+      --bg2: 95 100% 96%;
+      --bg3: 210 100% 97%;
+      --ink: #222;
+      --ink-muted:#5c5c5c;
+      --brand:#8b4ea9; /* button */
+      --brand-press:#6f3c86;
+      --radius: 14px;
+      --shadow: 0 10px 30px rgba(0,0,0,.08);
+      --maxw: 680px;
     }
-    @keyframes float { from { background-position: 70% 20%, 20% 80%, 50% 50%; }
-                       to   { background-position: 65% 25%, 25% 75%, 55% 55%; } }
-    .card {
-      width: min(560px, 92vw);
-      border-radius: 18px; padding: 28px; background: rgba(255,255,255,.82);
-      box-shadow: 0 10px 40px rgba(0,0,0,.08); backdrop-filter: blur(6px);
+    html,body{
+      height:100%;
+      margin:0;
+      font-family: Montserrat, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+      color: var(--ink);
+      background: radial-gradient(circle at 20% 10%, hsl(var(--bg1)) 0%, transparent 40%),
+                  radial-gradient(circle at 80% 30%, hsl(var(--bg2)) 0%, transparent 40%),
+                  radial-gradient(circle at 50% 90%, hsl(var(--bg3)) 0%, transparent 40%),
+                  #fff;
+      background-attachment: fixed;
+      animation: glow 18s ease-in-out infinite alternate;
     }
-    h1 { margin: 0 0 6px; font-size: clamp(28px, 5vw, 40px); line-height:1.1; }
-    p  { margin: 0 0 18px; opacity:.8 }
-    label { display:block; font-weight:600; margin:16px 0 6px; }
-    input, select, button {
-      width:100%; font:inherit; padding:12px 14px; border-radius:10px; border:1px solid #cfcfd2;
+    @keyframes glow{
+      0% { background-position: 20% 10%, 80% 30%, 50% 90%; }
+      100% { background-position: 25% 15%, 75% 25%, 45% 85%; }
     }
-    button { margin-top:18px; border:none; font-weight:700; cursor:pointer }
-    button { background:#7d42a9; color:#fff }
-    button:active { transform:translateY(1px) }
+
+    .page{
+      min-height:100%;
+      display:grid;
+      grid-template-rows:auto 1fr;
+    }
+    .brand{
+      padding: 18px 22px;
+    }
+    .brand img{
+      height: 56px;
+      width:auto;
+      display:block;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,.12));
+    }
+    .wrap{
+      display:grid;
+      place-items:center;
+      padding: 40px 20px 64px;
+    }
+    .card{
+      width: min(100%, var(--maxw));
+      backdrop-filter: blur(6px);
+      background: rgba(255,255,255,.65);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      padding: clamp(22px, 5vw, 42px);
+    }
+    h1{
+      font-size: clamp(28px, 5vw, 44px);
+      line-height: 1.1;
+      margin: 0 0 6px;
+      text-align:center;
+      font-weight:700;
+      letter-spacing:.2px;
+    }
+    .sub{
+      text-align:center;
+      color: var(--ink-muted);
+      margin: 0 0 24px;
+      font-weight:600;
+    }
+    form{
+      display:grid;
+      gap: 16px;
+      margin-top: 8px;
+    }
+    label{
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink-muted);
+      margin-bottom: 4px;
+      display:block;
+    }
+    input[type="email"], select, button{
+      font: inherit;
+    }
+    .field{
+      display:grid;
+      gap: 8px;
+    }
+    .control{
+      width:100%;
+      border: 1.5px solid rgba(0,0,0,.12);
+      background: #fff;
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      outline:none;
+      transition: box-shadow .15s ease, border-color .15s ease, transform .02s ease;
+      box-shadow: 0 1px 0 rgba(0,0,0,.03) inset;
+    }
+    .control:focus{
+      border-color: rgba(139,78,169,.55);
+      box-shadow: 0 0 0 4px rgba(139,78,169,.15);
+    }
+    .hint{
+      font-size: 12px;
+      color: var(--ink-muted);
+      margin-top: -4px;
+    }
+    .btn{
+      justify-self:start;
+      border: none;
+      border-radius: var(--radius);
+      padding: 12px 20px;
+      font-weight: 700;
+      background: var(--brand);
+      color: #fff;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+    }
+    .btn:active{ transform: translateY(1px); background: var(--brand-press); }
+
+    .note{
+      margin-top: 10px;
+      font-size: 14px;
+      color: var(--ink-muted);
+    }
+
+    .alert{
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      display:none;
+    }
+    .ok{ background:#e9f9f0; color:#0f6a3f; }
+    .err{ background:#fdeaea; color:#b00020; }
+
+    /* mobile tweaks */
+    @media (max-width: 640px){
+      .brand img { height: 46px; }
+      .btn{ justify-self:stretch; text-align:center; }
+    }
   </style>
+
+  <!-- social preview (optional) -->
+  <meta property="og:title" content="Zaitgeist — sign up for beta" />
+  <meta property="og:description" content="Want to explore deeper? Join the Zaitgeist beta." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#8b4ea9" />
 </head>
 <body>
-  <main class="card">
-    <h1>want to explore deeper?</h1>
-    <p>sign up for beta</p>
+  <div class="page">
+    <header class="brand">
+      <img src="assets/Clear logo.svg" alt="Zaitgeist logo" />
+    </header>
 
-    <form action="https://script.google.com/macros/s/AKfycbxDIV0lxbUZvJmEI_6ltxENkmCbGmFvYnfzeParnOCdker-SZVs1yTtsnVpr9msHO4T/exec" method="POST">
-      <label for="email">email</label>
-      <input id="email" name="email" type="email" required />
+    <main class="wrap">
+      <section class="card" role="region" aria-labelledby="hero">
+        <h1 id="hero">want to explore deeper?</h1>
+        <p class="sub">sign up for beta</p>
 
-      <label for="lead">where do you want zaitgeist to lead you?</label>
-      <select id="lead" name="lead" size="5">
-        <option>In-person Events</option>
-        <option>Classes</option>
-        <option>Research Insights</option>
-        <option>New Artists</option>
-        <option>Community Organizations</option>
-      </select>
+        <form id="betaForm" novalidate>
+          <div class="field">
+            <label for="email">email</label>
+            <input id="email" name="email" type="email" required placeholder="you@example.com" class="control" />
+            <div class="hint">we’ll only use this to contact you about the beta.</div>
+          </div>
 
-      <button type="submit">Submit</button>
-    </form>
-  </main>
+          <div class="field">
+            <label for="interest">where do you want zaitgeist to lead you?</label>
+            <select id="interest" name="interest" class="control" required>
+              <option value="" disabled selected>Choose one…</option>
+              <option>In-person Events</option>
+              <option>Classes</option>
+              <option>Research Insights</option>
+              <option>New Artists</option>
+              <option>Community Organizations</option>
+            </select>
+          </div>
+
+          <button class="btn" type="submit">Submit</button>
+
+          <div id="ok" class="alert ok">Thanks! You’re on the list.</div>
+          <div id="err" class="alert err">Something went wrong. Please try again.</div>
+          <p class="note">By submitting, you agree to receive occasional emails about Zaitgeist.</p>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxDIV0lxbUZvJmEI_6ltxENkmCbGmFvYnfzeParnOCdker-SZVs1yTtsnVpr9msHO4T/exec"; // <-- paste your Apps Script web app URL
+
+    const form = document.getElementById('betaForm');
+    const ok = document.getElementById('ok');
+    const err = document.getElementById('err');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      ok.style.display = 'none';
+      err.style.display = 'none';
+
+      const email = document.getElementById('email').value.trim();
+      const interest = document.getElementById('interest').value;
+
+      if (!email || !interest){
+        err.textContent = "Please fill out all fields.";
+        err.style.display = 'block';
+        return;
+      }
+
+      try{
+        const res = await fetch(SCRIPT_URL, {
+          method: 'POST',
+          mode: 'cors',                  // your script must be deployed as "Anyone with the link"
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ Email: email, "where do you want zaitgeist to lead you?": interest })
+        });
+
+        if (res.ok){
+          form.reset();
+          ok.style.display = 'block';
+        } else {
+          const txt = await res.text().catch(()=> '');
+          err.textContent = 'Error: ' + (txt || res.status + ' ' + res.statusText);
+          err.style.display = 'block';
+        }
+      }catch(ex){
+        err.textContent = 'Network error. Please try again.';
+        err.style.display = 'block';
+      }
+    });
+  </script>
 </body>
 </html>
