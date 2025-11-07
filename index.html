@@ -91,39 +91,30 @@
   </main>
 
   <script>
-    const FORM_ENDPOINT = "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
+const endpoint = "https://script.google.com/macros/s/AKfycbz6jbT1-_dNvqMdT07Is4Tdbpw2n2e5Nj-sfg7Ytfjt4_ekvhCuZecdmRM2EAIHwC0U/exec";
 
-    async function submitForm(payload) {
-      const res = await fetch(FORM_ENDPOINT, {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(payload)
-      });
-      return res.ok;
-    }
+document.querySelector("form").addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-    const form = document.getElementById('signup');
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const payload = {
-        name: form.name.value.trim(),
-        email: form.email.value.trim(),
-        message: form.message.value.trim()
-      };
-      try {
-        const ok = await submitForm(payload);
-        if (ok) {
-          document.getElementById('ok').style.display = 'block';
-          document.getElementById('err').style.display = 'none';
-          form.reset();
-        } else {
-          throw new Error('Bad response');
-        }
-      } catch (err) {
-        document.getElementById('err').style.display = 'block';
-        document.getElementById('ok').style.display = 'none';
-      }
-    });
-  </script>
+  const payload = {
+    email: document.querySelector("[name=email]").value,
+    answer: document.querySelector("[name=answer]").value
+  };
+
+  const r = await fetch(endpoint, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+
+  if (r.ok) {
+    alert("You're in!");
+    e.target.reset();
+  } else {
+    alert("Try again?");
+  }
+});
+</script>
+
 </body>
 </html>
