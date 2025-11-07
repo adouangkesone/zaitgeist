@@ -1,116 +1,111 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Zaitgeist — sign up for beta</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet"/>
+  <!-- fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet" />
 
   <style>
+    /* ===== quick knobs ===== */
     :root{
-      --ink:#2b2b2b;
-      --accent-1:#9a6dd7;
-      --accent-2:#cc77b9;
-      --bg1:#f6f1ff;
-      --bg2:#f1fff6;
-      --bg3:#fff6f1;
-      --radius:14px;
+      --font: "Montserrat", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      --logo-size: 64px;           /* change this to resize logo */
+      --field-bg: 0.35;            /* 0 = transparent, 1 = solid; try 0.25–0.45 */
+      --field-blur: 6px;           /* backdrop blur under fields */
+      --field-border: 0.18;        /* border visibility (0–.3) */
+      --accent-1: #9a6dd7;         /* button gradient left */
+      --accent-2: #cc77b9;         /* button gradient right */
+      --ink: #2b2b2b;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
+
+    /* ===== background ===== */
+    :root {
+      --bg1: #f6f1ff; --bg2: #f1fff6; --bg3: #fff6f1;
+    }
+    html,body{height:100%;margin:0;font-family:var(--font);color:var(--ink);}
     body{
-      margin:0;
-      font-family:Montserrat,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-      color:var(--ink);
       background:
-        radial-gradient(1100px 800px at 30% 20%, var(--bg1), transparent 60%),
-        radial-gradient(1200px 900px at 70% 80%, var(--bg2), transparent 60%),
-        radial-gradient(900px 700px at 50% 55%, var(--bg3), transparent 60%),
+        radial-gradient(1200px 800px at 30% 20%, var(--bg1), transparent 60%),
+        radial-gradient(1200px 800px at 70% 80%, var(--bg2), transparent 60%),
+        radial-gradient(1200px 800px at 50% 50%, var(--bg3), transparent 60%),
         #fff;
-      animation: drift 18s ease-in-out infinite alternate;
+      animation: drift 16s ease-in-out infinite alternate;
     }
     @keyframes drift{
-      0%{background-position:30% 20%,70% 80%,50% 55%}
+      0%{background-position:30% 20%,70% 80%,50% 50%}
       100%{background-position:35% 25%,65% 75%,48% 52%}
     }
 
-    .page{
-      max-width:880px;
-      margin:0 auto;
-      padding:28px 24px 80px;
-    }
-    header{
-      display:flex;align-items:center;gap:12px;margin-bottom:16px;
-    }
-    .brand-logo{height:56px;width:auto;display:block}
-    h1{
-      font-weight:800;
-      font-size:clamp(40px,7vw,72px);
-      line-height:1.05;
-      letter-spacing:.2px;
-      margin:28px 0 8px;
-      text-wrap:balance;
-    }
-    .sub{font-size:clamp(18px,2.4vw,24px);opacity:.85;margin:0 0 24px}
+    /* ===== layout ===== */
+    .wrap{max-width:900px;margin:0 auto;padding:28px 20px 96px;}
+    header{display:flex;align-items:center;gap:16px}
+    .brand-logo{height:var(--logo-size);width:auto}
 
-    form{
-      margin-top:18px;
+    h1{
+      font-weight:800; letter-spacing:.2px; margin: 48px 0 8px;
+      font-size: clamp(36px, 7vw, 72px); line-height:1.04;
     }
-    label{
-      display:block;
-      font-weight:600;
-      font-size:16px;
-      margin:18px 0 8px;
-    }
-    input[type="email"], select{
+    .sub{font-size:clamp(18px,2.4vw,26px);opacity:.8;margin:0 0 28px}
+
+    form{max-width:760px}
+    label{font-size:16px;font-weight:600;margin:20px 0 8px;display:block}
+
+    .control{
       width:100%;
       padding:14px 16px;
-      border-radius:var(--radius);
-      border:1px solid rgba(0,0,0,.14);
-      background:#fff;
-      font-size:16px;
+      font-size:18px;
+      border-radius:14px;
+      border:1px solid rgba(0,0,0,var(--field-border));
+      background: rgba(255,255,255,var(--field-bg));
+      backdrop-filter: blur(var(--field-blur));
       outline:none;
     }
-    /* multi-select height */
-    select[multiple]{height:180px}
-    .hint{font-size:14px;opacity:.7;margin-top:6px}
+    .control:focus{
+      border-color: rgba(153,102,204,.45);
+      box-shadow: 0 0 0 4px rgba(153,102,204,.15);
+    }
+
+    /* multi-select should be taller */
+    select[multiple].control{
+      min-height: 180px; /* adjust as you like */
+    }
+
+    .hint{font-size:14px;opacity:.8;margin-top:6px}
 
     button{
-      margin-top:18px;
-      padding:12px 20px;
-      border-radius:var(--radius);
-      border:0;
-      font-weight:700;
-      cursor:pointer;
-      background:linear-gradient(135deg,var(--accent-1),var(--accent-2));
-      color:#fff;
-      box-shadow:0 10px 24px rgba(153,102,204,.30);
+      margin-top:18px;padding:12px 20px;border-radius:14px;border:0;
+      font-weight:800;cursor:pointer;color:#fff;
+      background: linear-gradient(135deg,var(--accent-1),var(--accent-2));
+      box-shadow: 0 8px 24px rgba(153,102,204,.28);
     }
     button:active{transform:translateY(1px)}
 
-    .alert{display:none;margin-top:14px;font-size:15px}
-    .ok{color:#135d2f}
-    .err{color:#8b1c1c}
-    .note{font-size:13px;opacity:.65;margin-top:16px}
+    .alert{display:none;margin-top:14px;font-size:16px}
+    .ok{color:#165b31}
+    .err{color:#7a1433}
 
-    /* mobile tweaks */
+    .note{font-size:14px;opacity:.75;margin-top:12px}
+
     @media (max-width:640px){
-      .brand-logo{height:48px}
-      .page{padding:20px 16px 64px}
+      .wrap{padding:20px 16px 72px}
+      .brand-logo{height:calc(var(--logo-size) - 12px)}
     }
   </style>
 
-  <meta property="og:title" content="Zaitgeist — sign up for beta"/>
-  <meta property="og:description" content="Want to explore deeper? Join the Zaitgeist beta."/>
-  <meta property="og:type" content="website"/>
-  <meta name="theme-color" content="#8b4ea9"/>
+  <meta property="og:title" content="Zaitgeist — sign up for beta" />
+  <meta property="og:description" content="Want to explore deeper? Join the Zaitgeist beta." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#8b4ea9" />
 </head>
 <body>
-  <div class="page">
+  <div class="wrap">
     <header>
+      <!-- keep your logo at /assets/logo.png -->
       <img src="assets/logo.png" alt="Zaitgeist" class="brand-logo">
     </header>
 
@@ -119,17 +114,19 @@
 
     <form id="betaForm" novalidate>
       <label for="email">email</label>
-      <input id="email" name="email" type="email" required placeholder="you@example.com">
+      <input id="email" name="email" type="email" required placeholder="you@example.com" class="control" />
       <div class="hint">we’ll only use this to contact you about the beta.</div>
 
-      <label for="interest">where do you want zaitgeist to lead you?</label>
+      <label for="interest" style="margin-top:20px">where do you want zaitgeist to lead you?</label>
+
       <!-- MULTI-SELECT -->
-      <select id="interest" name="interest" multiple>
+      <select id="interest" name="interest" class="control" multiple size="6" required>
         <option>In-person Events</option>
         <option>Classes</option>
         <option>Research Insights</option>
         <option>New Artists</option>
         <option>Community Organizations</option>
+        <option>Other</option>
       </select>
 
       <button type="submit">Submit</button>
@@ -141,7 +138,6 @@
   </div>
 
   <script>
-    // Your deployed Apps Script URL ("Anyone with the link")
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxDIV0lxbUZvJmEI_6ltxENkmCbGmFvYnfzeParnOCdker-SZVs1yTtsnVpr9msHO4T/exec";
 
     const form = document.getElementById('betaForm');
@@ -154,14 +150,11 @@
       err.style.display = 'none';
 
       const email = document.getElementById('email').value.trim();
+      const sel = document.getElementById('interest');
+      const interests = Array.from(sel.selectedOptions).map(o => o.value);
 
-      // collect multi-select values
-      const select = document.getElementById('interest');
-      const selections = Array.from(select.selectedOptions).map(o => o.value);
-      const interestStr = selections.join(', ');
-
-      if (!email || selections.length === 0){
-        err.textContent = "Please fill out all fields.";
+      if (!email || interests.length === 0){
+        err.textContent = "Please add your email and at least one interest.";
         err.style.display = 'block';
         return;
       }
@@ -171,9 +164,10 @@
           method: 'POST',
           mode: 'cors',
           headers: {'Content-Type': 'application/json'},
+          // send interests as comma-separated string (easier for Sheets)
           body: JSON.stringify({
             Email: email,
-            "where do you want zaitgeist to lead you?": interestStr
+            "where do you want zaitgeist to lead you?": interests.join(", ")
           })
         });
 
