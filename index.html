@@ -54,7 +54,7 @@
     }
     .sub{font-size:clamp(18px,2.4vw,26px);opacity:.8;margin:0 0 28px;text-align:center}
 
-    form{max-width:760px}
+    form{max-width:760px;position:relative}
     label{font-size:16px;font-weight:600;margin:20px 0 8px;display:block}
 
     /* shared form field styles */
@@ -130,6 +130,35 @@
 
     .note{font-size:14px;opacity:.75;margin-top:12px}
 
+    /* form success state */
+    .form-success{
+      text-align:center;
+      font-size:clamp(20px,3vw,24px);
+      color:var(--ink);
+      opacity:0;
+      transform:translateY(10px);
+      transition:opacity .6s ease,transform .6s ease;
+      display:none;
+      position:absolute;
+      left:0;
+      right:0;
+      top:50%;
+      transform:translateY(-50%);
+    }
+    .form-success.show{
+      opacity:1;
+      transform:translateY(-50%);
+      display:block;
+    }
+    #betaForm{
+      transition:opacity .5s ease,transform .5s ease;
+    }
+    #betaForm.fade-out{
+      opacity:0;
+      transform:translateY(-10px);
+      pointer-events:none;
+    }
+
   /* page load staggered fade-in (accessible) */
   /* container remains visible; individual children animate top→bottom */
   .page-fade{opacity:1}
@@ -189,11 +218,9 @@
       </div>
 
       <button type="submit">Submit</button>
-
-      <div id="ok" class="alert ok">Thanks! You’re on the list.</div>
       <div id="err" class="alert err">Something went wrong. Please try again.</div>
-      
     </form>
+    <div class="form-success">we'll let you know when you can dive into beta</div>
   </div>
 
   <script>
@@ -280,9 +307,9 @@
     const ok = document.getElementById('ok');
     const err = document.getElementById('err');
 
+    const successMsg = document.querySelector('.form-success');
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      ok.style.display = 'none';
       err.style.display = 'none';
 
       const email = document.getElementById('email').value.trim();
@@ -315,11 +342,12 @@
         });
 
         if (res.ok){
-          form.reset();
-          // reset dropdown label if present
-          const toggle = document.querySelector('#interest .multi-toggle');
-          if (toggle) { toggle.innerHTML = '<span class="placeholder">be curious..</span>'; toggle.classList.add('empty'); }
-          ok.style.display = 'block';
+          // Fade out form
+          form.classList.add('fade-out');
+          // Show success message with a small delay
+          setTimeout(() => {
+            successMsg.classList.add('show');
+          }, 400);
         } else {
           const txt = await res.text().catch(()=> '');
           err.textContent = 'Error: ' + (txt || res.status + ' ' + res.statusText);
