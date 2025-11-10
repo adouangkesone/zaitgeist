@@ -335,6 +335,18 @@
       e.preventDefault();
       err.style.display = 'none';
       
+      // Rate limiting check
+      const now = Date.now();
+      const lastSubmit = localStorage.getItem('lastFormSubmit');
+      const waitTime = 60000; // 1 minute cooldown
+      
+      if (lastSubmit && (now - parseInt(lastSubmit, 10)) < waitTime) {
+        const remainingSeconds = Math.ceil((waitTime - (now - parseInt(lastSubmit, 10))) / 1000);
+        err.textContent = `Please wait ${remainingSeconds} seconds before submitting again.`;
+        err.style.display = 'block';
+        return;
+      }
+      
       const email = document.getElementById('email').value.trim();
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       const sel = document.getElementById('interest');
@@ -396,6 +408,8 @@
 
       // Submit the form and clean up
       iframeForm.submit();
+      // Store submission timestamp for rate limiting
+      localStorage.setItem('lastFormSubmit', Date.now().toString());
       setTimeout(() => {
         document.body.removeChild(iframe);
       }, 5000);
