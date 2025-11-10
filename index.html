@@ -24,20 +24,21 @@
 
     /* ===== background ===== */
     :root {
-      --bg1: #f6f1ff; --bg2: #f1fff6; --bg3: #fff6f1;
+      --bg1: #e9deff; --bg2: #dcffdc; --bg3: #ffdfd3; --bg4: #ffe1f0;
     }
     html,body{height:100%;margin:0;font-family:var(--font);color:var(--ink);}
     body{
       background:
-        radial-gradient(1200px 800px at 30% 20%, var(--bg1), transparent 60%),
-        radial-gradient(1200px 800px at 70% 80%, var(--bg2), transparent 60%),
-        radial-gradient(1200px 800px at 50% 50%, var(--bg3), transparent 60%),
+        radial-gradient(clamp(400px, 65vw, 900px) clamp(350px, 45vw, 700px) at 30% 30%, var(--bg1), transparent 80%),
+        radial-gradient(clamp(400px, 60vw, 850px) clamp(300px, 40vw, 600px) at 75% 65%, var(--bg2), transparent 80%),
+        radial-gradient(clamp(450px, 70vw, 950px) clamp(350px, 45vw, 700px) at 45% 80%, var(--bg3), transparent 80%),
+        radial-gradient(clamp(380px, 55vw, 800px) clamp(320px, 42vw, 650px) at 60% 25%, var(--bg4), transparent 80%),
         #fff;
-      animation: drift 16s ease-in-out infinite alternate;
+      animation: drift 20s ease-in-out infinite alternate;
     }
     @keyframes drift{
-      0%{background-position:30% 20%,70% 80%,50% 50%}
-      100%{background-position:35% 25%,65% 75%,48% 52%}
+      0%{background-position:30% 30%, 75% 65%, 45% 80%, 60% 25%}
+      100%{background-position:35% 35%, 70% 60%, 40% 75%, 55% 30%}
     }
 
     /* ===== layout ===== */
@@ -52,10 +53,10 @@
       font-size: clamp(27px, 4.7vw, 49px); line-height:1.04;
       text-align:center;
     }
-    .sub{font-size:clamp(18px,2.4vw,26px);opacity:.8;margin:0 0 28px;text-align:center}
+    .sub{font-size:clamp(22px,3.8vw,39px);opacity:.8;margin:0 0 28px;text-align:center}
 
-    form{max-width:760px;position:relative}
-    label{font-size:16px;font-weight:600;margin:20px 0 8px;display:block}
+    form{max-width:760px;position:relative;margin:0 auto;padding:0 14px}
+    label{font-size:16px;font-weight:600;margin:20px 0 8px;display:block;text-align:left}
 
     /* shared form field styles */
     .form-field,
@@ -117,14 +118,16 @@
     .hint{font-size:14px;opacity:.8;margin-top:6px}
 
     button{
-      margin-top:18px;padding:12px 20px;border-radius:14px;border:0;
+      margin:18px 0 0;padding:12px 20px;border-radius:14px;border:0;
       font-weight:800;cursor:pointer;color:#fff;
       background: linear-gradient(135deg,var(--accent-1),var(--accent-2));
       box-shadow: 0 8px 24px rgba(153,102,204,.28);
+      display:inline-block;
+      min-width:120px;
     }
     button:active{transform:translateY(1px)}
 
-    .alert{display:none;margin-top:14px;font-size:16px}
+    .alert{display:none;margin-top:14px;font-size:16px;text-align:center}
     .ok{color:#165b31}
     .err{color:#7a1433}
 
@@ -144,6 +147,9 @@
       right:0;
       top:50%;
       transform:translateY(-50%);
+      padding:0 14px;
+      max-width:760px; /* match form width */
+      margin:0 auto;
     }
     .form-success.show{
       opacity:1;
@@ -199,7 +205,16 @@
 
     <form id="betaForm" novalidate>
       <label for="email">email</label>
-      <input id="email" name="email" type="email" required placeholder="you@example.com" class="control form-field" />
+      <input 
+        id="email" 
+        name="email" 
+        type="email" 
+        required 
+        pattern="[^@\s]+@[^@\s]+\.[^@\s]+" 
+        title="Please enter a valid email address"
+        placeholder="you@example.com" 
+        class="control form-field" 
+      />
      
 
       <label for="interest" style="margin-top:20px">where do you want zaitgeist to lead you?</label>
@@ -224,7 +239,7 @@
   </div>
 
   <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxDIV0lxbUZvJmEI_6ltxENkmCbGmFvYnfzeParnOCdker-SZVs1yTtsnVpr9msHO4T/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwkfQqM8YB6mwv9Z0kgxUuVCVuiQnsu5QFtO0OoCHgBTjrX599sI4O8Zj8XET469RRm/exec";
 
   // Fade-in on page load (respects prefers-reduced-motion)
     (function(){
@@ -308,11 +323,20 @@
     const err = document.getElementById('err');
 
     const successMsg = document.querySelector('.form-success');
-    form.addEventListener('submit', async (e) => {
+    // Check for success parameter in URL
+    if (window.location.search.includes('success=true')) {
+      form.classList.add('fade-out');
+      setTimeout(() => {
+        successMsg.classList.add('show');
+      }, 400);
+    }
+
+    form.addEventListener('submit', (e) => {
       e.preventDefault();
       err.style.display = 'none';
-
+      
       const email = document.getElementById('email').value.trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       const sel = document.getElementById('interest');
       let interests = [];
       if (sel){
@@ -323,40 +347,58 @@
         }
       }
 
-      if (!email || interests.length === 0){
-        err.textContent = "Please add your email and at least one interest.";
+      // Validate email format
+      if (!email || !emailRegex.test(email)) {
+        err.textContent = "Please enter a valid email address.";
         err.style.display = 'block';
         return;
       }
 
-      try{
-        const res = await fetch(SCRIPT_URL, {
-          method: 'POST',
-          mode: 'cors',
-          headers: {'Content-Type': 'application/json'},
-          // send interests as comma-separated string (easier for Sheets)
-          body: JSON.stringify({
-            Email: email,
-            "where do you want zaitgeist to lead you?": interests.join(", ")
-          })
-        });
-
-        if (res.ok){
-          // Fade out form
-          form.classList.add('fade-out');
-          // Show success message with a small delay
-          setTimeout(() => {
-            successMsg.classList.add('show');
-          }, 400);
-        } else {
-          const txt = await res.text().catch(()=> '');
-          err.textContent = 'Error: ' + (txt || res.status + ' ' + res.statusText);
-          err.style.display = 'block';
-        }
-      }catch(ex){
-        err.textContent = 'Network error. Please try again.';
+      // Validate interests
+      if (interests.length === 0) {
+        err.textContent = "Please select at least one interest.";
         err.style.display = 'block';
+        return;
       }
+
+      // Create a hidden form in an iframe to avoid CORS
+      const iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      document.body.appendChild(iframe);
+
+      const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+      const iframeForm = iframeDoc.createElement('form');
+      iframeForm.method = 'POST';
+      iframeForm.action = SCRIPT_URL;
+
+      // Add the form fields
+      const emailInput = iframeDoc.createElement('input');
+      emailInput.type = 'hidden';
+      emailInput.name = 'Email';
+      emailInput.value = email;
+      iframeForm.appendChild(emailInput);
+
+      const interestsInput = iframeDoc.createElement('input');
+      interestsInput.type = 'hidden';
+      interestsInput.name = 'where do you want zaitgeist to lead you?';
+      interestsInput.value = interests.join(", ");
+      iframeForm.appendChild(interestsInput);
+
+      iframeDoc.body.appendChild(iframeForm);
+      
+      // Show success state after a short delay
+      setTimeout(() => {
+        form.classList.add('fade-out');
+        setTimeout(() => {
+          successMsg.classList.add('show');
+        }, 400);
+      }, 1000);
+
+      // Submit the form and clean up
+      iframeForm.submit();
+      setTimeout(() => {
+        document.body.removeChild(iframe);
+      }, 5000);
     });
   </script>
 </body>
